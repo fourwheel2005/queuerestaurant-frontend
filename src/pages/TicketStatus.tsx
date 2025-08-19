@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import BackButton from "../assets/ิbackButton";
 const TicketStatus: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -60,33 +60,34 @@ const TicketStatus: React.FC = () => {
             </button>
           </div>
         </section>
+        <BackButton className=""  >ย้อยกลับ</BackButton>
       </div>
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-lg p-8 w-full max-w-md text-center">
-            <h2 className="text-xl font-bold mb-6">ยกเลิกการจองคิว</h2>
-            <div className="flex justify-center gap-4">
-              <button
-                className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800"
-                onClick={() => {
-                  alert("ยืนยันการยกเลิกเรียบร้อยแล้ว!");
-                  setShowModal(false);
-                }}
-              >
-                ยืนยัน
-              </button>
-              <button
-                className="border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
-                onClick={() => setShowModal(false)}
-              >
-                ยกเลิก
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div className="bg-white rounded-lg p-8 w-full max-w-md text-center shadow-lg">
+      <h2 className="text-xl font-bold mb-6">ยกเลิกการจองคิว</h2>
+      <div className="flex justify-center gap-4">
+        <button
+          className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-800"
+          onClick={() => {
+            alert("ยืนยันการยกเลิกเรียบร้อยแล้ว!");
+            setShowModal(false);
+          }}
+        >
+          ยืนยัน
+        </button>
+        <button
+          className="border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
+          onClick={() => setShowModal(false)}
+        >
+          ยกเลิก
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </main>
   );
 };
