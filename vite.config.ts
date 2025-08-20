@@ -1,8 +1,13 @@
 import { defineConfig } from 'vite'
-// import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-
+import { config } from './src/config/config'
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [ tailwindcss(),],
+  plugins: [tailwindcss(), react(),],
+  // server: {
+  //   port: 3000,    // เปลี่ยน port
+  //   host: true,    // ให้เข้าจากเครือข่ายได้
+  //   strictPort: false, // ถ้า port ถูกใช้อยู่ จะเลือก port ใหม่อัตโนมัติ
+  // }
 })

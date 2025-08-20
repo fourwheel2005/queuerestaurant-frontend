@@ -1,14 +1,120 @@
-import React from "react";
-import BackButton from "../assets/ิbackButton";
+import React, { useState } from "react";
+import BackButton from "../assets/BackButton";
+import Button from "../assets/button";
+import { createTicket } from "../service/ReserveService";
+import type { FormTicket } from "../service/ReserveService";
+import { useNavigate } from "react-router-dom";
 
 const Reserve: React.FC = () => {
+    const navigate = useNavigate();
+    const [formTicket, setFormTicket] = useState<FormTicket>({
+        name: "",
+        phone: "",
+        people: "",
+        note: "",
+    });
+    const [showPopup, setShowPopup] = useState("");
+    const peopleOptions = [1, 2, 3, 4, 5, 6, 7];
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        setFormTicket({
+            ...formTicket,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async () => {
+        // ส่งข้อมูลออก เช่น console.log (ไว้แทน API)
+        if (!formTicket.name || !formTicket.phone || !formTicket.people) {
+            setShowPopup("กรุณากรอกชื่อ, เบอร์โทร และจำนวนคนให้ครบ"); return;
+        }
+        console.log("ข้อมูลที่บันทึก:", formTicket);
+        navigate("/TicketStatus");
+        // try {
+        //     const data = await createTicket(formTicket);
+
+        //     // if (data.status === "Success") {
+        //     //     setShowPopup("จองคิวเรียบร้อยแล้ว 🎉");
+        //     // } else {
+        //     //     setShowPopup("เกิดข้อผิดพลาด กรุณาลองใหม่");
+        //     // }
+        // } catch {
+        //     setShowPopup("ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้");
+        // }
+    };
+
     return (
         <div>
-            <h1>kkkkkkkkkkkkk</h1>
-            <BackButton className="" >
-                กลับ </BackButton>
+            <div className="flex flex-col items-center justify-center h-screen">
+                <div className="w-80 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
+                    <h1 className="text-center mb-4 font-bold">ข้อมูลการจองคิว</h1>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="ชื่อ"
+                        value={formTicket.name}
+                        onChange={handleChange}
+                        className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="เบอร์โทรศัพท์"
+                        value={formTicket.phone}
+                        onChange={handleChange}
+                        maxLength={10}
+                        className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+
+                    <select
+                        name="people"
+                        value={formTicket.people}
+                        onChange={handleChange}
+                        className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                        <option value="">เลือกจำนวนคน</option>
+                        {peopleOptions.map((num) => (
+                            <option key={num} value={num}>
+                                {num} คน
+                            </option>
+                        ))}
+                    </select>
+
+                    <textarea
+                        name="note"
+                        placeholder="หมายเหตุ"
+                        value={formTicket.note}
+                        onChange={handleChange}
+                        className="w-full mb-6 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                    <Button onClick={handleSubmit} className="w-full py-2 rounded-lg">ยืนยันการจองคิว</Button>
+                </div>
+                <div className="flex justify-center mt-4">
+                    <BackButton className="mt-4">กลับ</BackButton>
+                </div>
+            </div>
+            {showPopup && (
+                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-40 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                        <p className="mb-4 font-semibold text-red-600">
+                            {showPopup}
+                        </p>
+                        <button
+                            className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                            onClick={() => setShowPopup("")}
+                        >
+                            ปิด
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
-}
+};
 
 export default Reserve;
