@@ -28,7 +28,7 @@ const Home: React.FC = () => {
                             <h1 className="text-right"> 45 นาที</h1>
                         </div>
                         <Button onClick={() => navigate('/Reserve')}>จองคิวล่วงหน้า</Button>
-                        <button onClick={() => navigate('/SearchTickets')}  className={`bg-white text-black text-center border border-gray-300 px-4 py-2 rounded hover:bg-gray-600 hover:text-white`}>ค้นหาคิว</button>
+                        <button onClick={() => navigate('/SearchTickets')} className={`bg-white text-black text-center border border-gray-300 px-4 py-2 rounded hover:bg-gray-600 hover:text-white`}>ค้นหาคิว</button>
                     </div>
                     <div className="border border-gray-300 rounded">
 

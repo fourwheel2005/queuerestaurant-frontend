@@ -3,19 +3,29 @@ import type { FromSearchTicket } from "../service/SearchTicketsService";
 import Button from "../assets/button";
 import BackButton from "../assets/BackButton";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const SearchTickets: React.FC = () => {
-    
+
     const navigate = useNavigate();
     const [formSearch, setFormSearch] = useState<FromSearchTicket>({
         phone: '',
         date: '',
     });
-    const [showPopup, setShowPopup] = useState("");
+
+    const handleShowPopup = () => {
+        Swal.fire({
+            title: "แจ้งเตือน",
+            text: "กรุณากรอกวันเดือยและเบอร์โทรให้ครบ",
+            icon: "warning",
+            confirmButtonText: "ยกเลิก",
+            confirmButtonColor: "red",
+        });
+    };
     const handleSubmit = () => {
         if (!formSearch.date || !formSearch.phone) {
-            setShowPopup("กรุณากรอกวันเดือยและเบอร์โทรให้ครบ"); return;
+            handleShowPopup(); return;
         }
-        
+
         navigate("/TicketStatus", { state: formSearch });
 
 
@@ -53,29 +63,12 @@ const SearchTickets: React.FC = () => {
                         className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
 
-
-
                     <Button onClick={handleSubmit} className="w-full py-2 rounded-lg">ค้นหาคิว</Button>
                 </div>
                 <div className="flex justify-center mt-4">
                     <BackButton className="mt-4">กลับ</BackButton>
                 </div>
             </div>
-            {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-40 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-                        <p className="mb-4 font-semibold text-red-600">
-                            {showPopup}
-                        </p>
-                        <button
-                            className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-600"
-                            onClick={() => setShowPopup("")}
-                        >
-                            ปิด
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

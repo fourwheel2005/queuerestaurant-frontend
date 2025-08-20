@@ -4,6 +4,7 @@ import Button from "../assets/button";
 import { createTicket } from "../service/ReserveService";
 import type { FormTicket } from "../service/ReserveService";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Reserve: React.FC = () => {
     const navigate = useNavigate();
@@ -13,22 +14,29 @@ const Reserve: React.FC = () => {
         people: "",
         note: "",
     });
-    const [showPopup, setShowPopup] = useState("");
     const peopleOptions = [1, 2, 3, 4, 5, 6, 7];
-
+    const handleShowPopup = () => {
+        Swal.fire({
+            title: "แจ้งเตือน",
+            text: "กรุณากรอกชื่อ, เบอร์โทร และจำนวนคนให้ครบ",
+            icon: "warning",
+            confirmButtonText: "ยกเลิก",
+            confirmButtonColor: "red",
+        });
+    };
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         setFormTicket({
             ...formTicket,
             [e.target.name]: e.target.value,
+
         });
     };
-
     const handleSubmit = async () => {
         // ส่งข้อมูลออก เช่น console.log (ไว้แทน API)
         if (!formTicket.name || !formTicket.phone || !formTicket.people) {
-            setShowPopup("กรุณากรอกชื่อ, เบอร์โทร และจำนวนคนให้ครบ"); return;
+            handleShowPopup(); return;
         }
         console.log("ข้อมูลที่บันทึก:", formTicket);
         navigate("/TicketStatus");
@@ -94,25 +102,10 @@ const Reserve: React.FC = () => {
                     />
                     <Button onClick={handleSubmit} className="w-full py-2 rounded-lg">ยืนยันการจองคิว</Button>
                 </div>
-                <div className="flex justify-center mt-4">
+                <div className="flex justify-center ">
                     <BackButton className="mt-4">กลับ</BackButton>
                 </div>
             </div>
-            {showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-40 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-                        <p className="mb-4 font-semibold text-red-600">
-                            {showPopup}
-                        </p>
-                        <button
-                            className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-600"
-                            onClick={() => setShowPopup("")}
-                        >
-                            ปิด
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
