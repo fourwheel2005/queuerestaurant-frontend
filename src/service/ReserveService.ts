@@ -16,9 +16,9 @@ export const createTicket = async (ticket: FormTicket) => {
     });
 
     const data = await response.json();
-    return data; // ส่งผลลัพธ์กลับไป
+    return data; 
   } catch (error) {
     console.error("Error creating ticket:", error);
-    throw error; // ขว้าง error ให้ component handle
+    throw error;
   }
 };

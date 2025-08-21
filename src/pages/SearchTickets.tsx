@@ -1,34 +1,44 @@
 import React, { useState } from "react";
 import type { FromSearchTicket } from "../service/SearchTicketsService";
-import Button from "../assets/button";
+import { searchTickets } from "../service/SearchTicketsService";
+import Button from "../assets/Button";
 import BackButton from "../assets/BackButton";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import Swal, { type SweetAlertIcon } from "sweetalert2";
 const SearchTickets: React.FC = () => {
 
     const navigate = useNavigate();
     const [formSearch, setFormSearch] = useState<FromSearchTicket>({
         phone: '',
         date: '',
+        all: false,
     });
 
-    const handleShowPopup = () => {
+    const handleShowPopup = (message: string, icon: SweetAlertIcon = "info") => {
         Swal.fire({
             title: "แจ้งเตือน",
-            text: "กรุณากรอกวันเดือยและเบอร์โทรให้ครบ",
-            icon: "warning",
+            text: message,
+            icon: icon,
             confirmButtonText: "ยกเลิก",
             confirmButtonColor: "red",
         });
     };
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
         if (!formSearch.date || !formSearch.phone) {
-            handleShowPopup(); return;
+            handleShowPopup("กรุณากรอกวันเดือนและเบอร์โทรให้ครบ", "warning"); return;
         }
-
-        navigate("/TicketStatus", { state: formSearch });
-
-
+        try {
+            const data = await searchTickets(formSearch);
+            console.log(data);
+            if (data.status === "Success") {
+                 navigate("/TicketStatus", { state: data.ticket[0]?.id });
+            } else {
+                handleShowPopup(data.message, "warning");
+            }
+        } catch (error) {
+            handleShowPopup("ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้", "error");
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

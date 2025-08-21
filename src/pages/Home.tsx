@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../assets/button";
+import Button from "../assets/Button";
 // import Reserve from "./Reserve";
 
 const Home: React.FC = () => {
