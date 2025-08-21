@@ -30,7 +30,6 @@ const SearchTickets: React.FC = () => {
         }
         try {
             const data = await searchTickets(formSearch);
-            console.log(data);
             if (data.status === "Success") {
                  navigate("/TicketStatus", { state: formSearch });
             } else {

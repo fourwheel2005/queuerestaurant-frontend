@@ -10,10 +10,26 @@ const TicketStatus: React.FC = () => {
   const formSearch = location.state as FromSearchTicket;
   const [tickets, setTickets] = useState<any[]>([]);
 
-  console.log("formSearch", formSearch);
-  console.log("tickets", tickets);
+  const fetchTickets = async () => {
+    try {
+      const data = await searchTickets(formSearch);
+      if (data.status === "Success") {
+        setTickets(data.ticket);
+      } else {
+        console.error("Error fetching tickets:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
-  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info" , ticketid: string) => {
+  useEffect(() => {
+
+    fetchTickets();
+  }, [formSearch]);
+
+
+  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info", ticketid: string) => {
     Swal.fire({
       title: "แจ้งเตือน",
       text: message,
@@ -29,6 +45,7 @@ const TicketStatus: React.FC = () => {
           .then((data) => {
             if (data.status === "Success") {
               Swal.fire("สำเร็จ", "ยืนยันการเข้าร่วมเรียบร้อยแล้ว", "success");
+              fetchTickets();
             } else {
               Swal.fire("ผิดพลาด", data.message, "error");
             }
@@ -40,23 +57,6 @@ const TicketStatus: React.FC = () => {
       }
     });
   };
-
-  useEffect(() => {
-    const fetchTickets = async () => {
-      try {
-        const data = await searchTickets(formSearch);
-        if (data.status === "Success") {
-          setTickets(data.ticket);
-        } else {
-          console.error("Error fetching tickets:", data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
-      }
-    };
-
-    fetchTickets();
-  }, [formSearch]);
 
   return (
     <main className="min-h-screen flex items-start justify-center bg-gray-50 text-gray-800">
@@ -116,7 +116,7 @@ const TicketStatus: React.FC = () => {
               {/* Confirm Button */}
               <div className="mt-6">
                 <button
-                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว #${ticket.queue}`, "warning" , ticket.id)}
+                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว #${ticket.queue}`, "warning", ticket.id)}
                   className="w-full rounded-md border border-gray-300 bg-white py-2.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
                 >
                   ยกเลิกการจองคิว
