@@ -5,8 +5,8 @@ import Button from "../assets/Button";
 import BackButton from "../assets/BackButton";
 import { useNavigate } from "react-router-dom";
 import Swal, { type SweetAlertIcon } from "sweetalert2";
-const SearchTickets: React.FC = () => {
 
+const SearchTickets: React.FC = () => {
     const navigate = useNavigate();
     const [formSearch, setFormSearch] = useState<FromSearchTicket>({
         phone: '',
@@ -32,7 +32,7 @@ const SearchTickets: React.FC = () => {
             const data = await searchTickets(formSearch);
             console.log(data);
             if (data.status === "Success") {
-                 navigate("/TicketStatus", { state: data.ticket[0]?.id });
+                 navigate("/TicketStatus", { state: formSearch });
             } else {
                 handleShowPopup(data.message, "warning");
             }

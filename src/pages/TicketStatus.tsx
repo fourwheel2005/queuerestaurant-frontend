@@ -1,54 +1,19 @@
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "../assets/BackButton";
 import Swal, { type SweetAlertIcon } from "sweetalert2";
 import { useLocation } from "react-router-dom";
-import type { FromSearchTicket } from "../service/SearchTicketsService";
-
+import { searchTickets, type FromSearchTicket } from "../service/SearchTicketsService";
+import { confirmAttendance } from "../service/ConfirmAttendanceService";
 
 const TicketStatus: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   const formSearch = location.state as FromSearchTicket;
-  const ticketId = (location.state as { ticketId: string })?.ticketId;
+  const [tickets, setTickets] = useState<any[]>([]);
 
-  console.log(formSearch);
+  console.log("formSearch", formSearch);
+  console.log("tickets", tickets);
 
-  // useEffect(() => {
-  //   try {
-  //     const data = await fetch(`https://api.example.com/ticket/${id}`);
-  //   } catch (error) {
-
-  //   }
-  // }, [id]);
-
-  const tickets = [
-    {
-      id: "12345",
-      name: "John Doe",
-      phone: "0123456789",
-      Queue: "13",
-      people: 2,
-      note: "No special requests",
-      time: "2023-10-01T12:00:00Z",
-      queueDifference: 5,
-      status: "confirmed",
-    },
-    {
-      id: "12346",
-      name: "Jane Smith",
-      phone: "0987654321",
-      Queue: "13",
-      people: 3,
-      note: "Near window",
-      time: "2023-10-01T12:30:00Z",
-      queueDifference: 2,
-      status: "waiting",
-    }
-  ];
-
-
-
-  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info") => {
+  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info" , ticketid: string) => {
     Swal.fire({
       title: "แจ้งเตือน",
       text: message,
@@ -60,13 +25,38 @@ const TicketStatus: React.FC = () => {
       cancelButtonColor: "red",
     }).then((result) => {
       if (result.isConfirmed) {
-        alert("ยืนยันการยกเลิกเรียบร้อยแล้ว!");
-        setShowModal(false);
-      } else {
-        setShowModal(false);
+        confirmAttendance({ id: ticketid, confirmAttendance: false })
+          .then((data) => {
+            if (data.status === "Success") {
+              Swal.fire("สำเร็จ", "ยืนยันการเข้าร่วมเรียบร้อยแล้ว", "success");
+            } else {
+              Swal.fire("ผิดพลาด", data.message, "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error confirming attendance:", error);
+            Swal.fire("ผิดพลาด", "ไม่สามารถยกเลิกการเข้าร่วมได้", "error");
+          });
       }
     });
   };
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const data = await searchTickets(formSearch);
+        if (data.status === "Success") {
+          setTickets(data.ticket);
+        } else {
+          console.error("Error fetching tickets:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching tickets:", error);
+      }
+    };
+
+    fetchTickets();
+  }, [formSearch]);
 
   return (
     <main className="min-h-screen flex items-start justify-center bg-gray-50 text-gray-800">
@@ -90,7 +80,7 @@ const TicketStatus: React.FC = () => {
               {/* Queue Number */}
               <div className="mb-6 sm:mb-8 rounded-lg bg-gray-100 text-center p-8">
                 <div className="text-4xl font-extrabold tracking-widest text-gray-900">
-                  #{ticket.Queue} {/* <-- แสดง Queue แทน ID */}
+                  #{ticket.queue} {/* <-- แสดง Queue แทน ID */}
                 </div>
                 <div className="mt-2 text-sm text-gray-500">หมายเลขคิวของคุณ</div>
               </div>
@@ -126,7 +116,7 @@ const TicketStatus: React.FC = () => {
               {/* Confirm Button */}
               <div className="mt-6">
                 <button
-                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว ${ticket.Queue}?`, "warning")}
+                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว #${ticket.queue}`, "warning" , ticket.id)}
                   className="w-full rounded-md border border-gray-300 bg-white py-2.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
                 >
                   ยกเลิกการจองคิว
