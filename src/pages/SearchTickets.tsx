@@ -25,8 +25,9 @@ console.log(formSearch)
     };
 
     const handleSubmit = async () => {
-        if (!formSearch.date || !formSearch.phone) {
-            handleShowPopup("กรุณากรอกวันเดือนและเบอร์โทรให้ครบ", "warning"); return;
+        if (!formSearch.date || !formSearch.phone  ||  formSearch.phone.length > 10 ||  formSearch.phone.length < 10) {
+            handleShowPopup("กรุณากรอกวันเดือนและเบอร์โทรให้ถูกต้อง", "warning");
+            return;
         }
         try {
             const data = await searchTickets(formSearch);
@@ -64,13 +65,11 @@ console.log(formSearch)
                     />
 
                     <input
-                        type="tel"
+                        type="number"
                         name="phone"
                         placeholder="เบอร์โทรศัพท์"
                         value={formSearch.phone}
                         onChange={handleChange}
-                        pattern="[0-9]{10}"
-                        maxLength={10}
                         className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
 

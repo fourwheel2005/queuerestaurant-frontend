@@ -34,9 +34,8 @@ const Reserve: React.FC = () => {
 
         });
     };
-
     const handleSubmit = async () => {
-        if (!formTicket.name || !formTicket.phone || !formTicket.people) {
+        if (!formTicket.name || !formTicket.phone || !formTicket.people ||  formTicket.phone.length > 10 ||  formTicket.phone.length < 10) {
             handleShowPopup("กรุณากรอกชื่อ, เบอร์โทร และจำนวนคนให้ครบ", "warning"); return;
         }
         try {
