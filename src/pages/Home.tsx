@@ -6,7 +6,6 @@ import { searchTickets, } from "../service/SearchTicketsService";
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [queue, setQueue] = useState(Number) 
-
   useEffect(() => {
     const fetchTickets = async () => {
       try {

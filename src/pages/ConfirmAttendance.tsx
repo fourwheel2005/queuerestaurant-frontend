@@ -105,7 +105,7 @@ const ConfirmAttendance: React.FC = () => {
                                     <div className="text-gray-500">สถานะการจองคิว:</div>
                                     <div className="font-medium">{ticket.status}</div>
                                 </div>
-                                 <div className="space-y-1 sm:col-span-3">
+                                <div className="space-y-1 sm:col-span-3">
                                     <div className="text-gray-500">หมายเหตุ:</div>
                                     <div className="font-medium">{ticket.note}</div>
                                 </div>
@@ -114,7 +114,7 @@ const ConfirmAttendance: React.FC = () => {
                             {/* Buttons */}
                             <div className="mt-6 space-y-2">
                                 <button
-                                    onClick={() => handleShowPopup(`คุณต้องการยืนยันคิว #${ticket.queue}`, "warning", ticket.id , true)}
+                                    onClick={() => handleShowPopup(`คุณต้องการยืนยันคิว #${ticket.queue}`, "warning", ticket.id, true)}
                                     className="w-full rounded-md border border-gray-300 bg-black text-white py-2.5 text-sm font-medium hover:text-black active:text-black hover:bg-gray-50 active:bg-gray-100"
                                 >
                                     ยืนยันคิว
