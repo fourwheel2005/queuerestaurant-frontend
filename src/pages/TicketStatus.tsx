@@ -10,7 +10,7 @@ const TicketStatus: React.FC = () => {
   const formSearch = location.state as FromSearchTicket;
   const [tickets, setTickets] = useState<any[]>([]);
 
-  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info" , ticketid: string) => {
+  const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info", ticketid: string) => {
     Swal.fire({
       title: "แจ้งเตือน",
       text: message,
@@ -108,12 +108,16 @@ const TicketStatus: React.FC = () => {
                   <div className="text-gray-500">สถานะการจองคิว:</div>
                   <div className="font-medium">{ticket.status} </div>
                 </div>
+                <div className="space-y-1 sm:col-span-3">
+                  <div className="text-gray-500">หมายเหตุ:</div>
+                  <div className="font-medium">{ticket.note}</div>
+                </div>
               </div>
 
               {/* Confirm Button */}
               <div className="mt-6">
                 <button
-                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว #${ticket.queue}`, "warning" , ticket.id)}
+                  onClick={() => handleShowPopup(`คุณต้องการยกเลิกคิว #${ticket.queue}`, "warning", ticket.id)}
                   className="w-full rounded-md border border-gray-300 bg-white py-2.5 text-sm font-medium hover:bg-gray-50 active:bg-gray-100"
                 >
                   ยกเลิกการจองคิว
