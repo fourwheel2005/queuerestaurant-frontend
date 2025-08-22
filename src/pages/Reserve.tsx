@@ -70,13 +70,11 @@ const Reserve: React.FC = () => {
                     />
 
                     <input
-                        type="tel"
+                        type="number"
                         name="phone"
                         placeholder="เบอร์โทรศัพท์"
                         value={formTicket.phone}
                         onChange={handleChange}
-                        maxLength={10}
-                        pattern="[0-9]*"
                         className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
 
