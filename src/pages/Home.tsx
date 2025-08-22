@@ -7,14 +7,12 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [queue, setQueue] = useState(Number) 
 
-
-
   useEffect(() => {
     const fetchTickets = async () => {
       try {
         const data = await searchTickets({all: true});
         if (data.status === "Success") {
-          setQueue(data.ticket.lenght);
+          setQueue(data.ticket.length);
         } else {
           console.error("Error fetching tickets:", data.message);
         }
@@ -45,7 +43,7 @@ const Home: React.FC = () => {
           {/* กล่องคิวที่รอ */}
           <div className="rounded-xl border border-gray-300 bg-white shadow-sm p-6 text-center flex flex-col justify-center">
             <div className="text-4xl mb-2">👥</div>
-            <h1 className="text-3xl font-bold">12</h1>
+            <h1 className="text-3xl font-bold">{queue}</h1>
             <p className="text-gray-500">คิวที่รอ</p>
           </div>
 
@@ -69,7 +67,7 @@ const Home: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-2 text-sm bg-gray-50 border rounded p-3">
               <span>คิวถัดไป</span>
-              <span className="text-right font-semibold">#13</span>
+              <span className="text-right font-semibold">#{queue + 1}</span>
             </div>
 
             <Button onClick={() => navigate("/Reserve")}>จองคิวล่วงหน้า</Button>
