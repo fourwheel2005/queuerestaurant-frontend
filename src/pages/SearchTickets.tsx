@@ -13,7 +13,7 @@ const SearchTickets: React.FC = () => {
         date: '',
         all: false,
     });
-
+console.log(formSearch)
     const handleShowPopup = (message: string, icon: SweetAlertIcon = "info") => {
         Swal.fire({
             title: "แจ้งเตือน",
@@ -55,7 +55,7 @@ const SearchTickets: React.FC = () => {
                     <h1 className="text-center mb-4 font-bold">ข้อมูลการจองคิว</h1>
 
                     <input
-                        type="text"
+                        type="date"
                         name="date"
                         placeholder="วันที้จอง (dd/mm)"
                         value={formSearch.date}
@@ -69,6 +69,7 @@ const SearchTickets: React.FC = () => {
                         placeholder="เบอร์โทรศัพท์"
                         value={formSearch.phone}
                         onChange={handleChange}
+                        pattern="[0-9]{10}"
                         maxLength={10}
                         className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
