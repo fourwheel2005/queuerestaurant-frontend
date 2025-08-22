@@ -55,7 +55,7 @@ const ConfirmAttendance: React.FC = () => {
 
     return (
         <main className="min-h-screen flex items-start justify-center bg-gray-50 text-gray-800">
-            <div className="w-full max-w-5xl px-4 py-10">
+            <div className="w-full  px-4 py-10">
                 {/* Header */}
                 <header className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold tracking-tight">
@@ -104,6 +104,10 @@ const ConfirmAttendance: React.FC = () => {
                                 <div className="space-y-1">
                                     <div className="text-gray-500">สถานะการจองคิว:</div>
                                     <div className="font-medium">{ticket.status}</div>
+                                </div>
+                                 <div className="space-y-1 sm:col-span-3">
+                                    <div className="text-gray-500">หมายเหตุ:</div>
+                                    <div className="font-medium">{ticket.note}</div>
                                 </div>
                             </div>
 

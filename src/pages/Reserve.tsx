@@ -15,7 +15,7 @@ const Reserve: React.FC = () => {
         note: "",
     });
     const peopleOptions = [1, 2, 3, 4, 5, 6, 7];
-    
+
     const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info") => {
         const result = await Swal.fire({
             title: "แจ้งเตือน",
@@ -26,7 +26,7 @@ const Reserve: React.FC = () => {
         });
         return result.isConfirmed
     };
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setFormTicket({
             ...formTicket,
@@ -34,7 +34,7 @@ const Reserve: React.FC = () => {
 
         });
     };
-    
+
     const handleSubmit = async () => {
         if (!formTicket.name || !formTicket.phone || !formTicket.people) {
             handleShowPopup("กรุณากรอกชื่อ, เบอร์โทร และจำนวนคนให้ครบ", "warning"); return;
@@ -77,6 +77,7 @@ const Reserve: React.FC = () => {
                         value={formTicket.phone}
                         onChange={handleChange}
                         maxLength={10}
+                        pattern="[0-9]*"
                         className="w-full mb-4 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
 
