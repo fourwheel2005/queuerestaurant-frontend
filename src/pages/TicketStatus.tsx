@@ -10,9 +10,6 @@ const TicketStatus: React.FC = () => {
   const formSearch = location.state as FromSearchTicket;
   const [tickets, setTickets] = useState<any[]>([]);
 
-  console.log("formSearch", formSearch);
-  console.log("tickets", tickets);
-
   const handleShowPopup = async (message: string, icon: SweetAlertIcon = "info" , ticketid: string) => {
     Swal.fire({
       title: "แจ้งเตือน",
