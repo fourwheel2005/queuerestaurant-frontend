@@ -12,7 +12,7 @@ const ConfirmAttendance: React.FC = () => {
         const fetchTickets = async () => {
             try {
                 const data = await searchTickets({ all: true });
-                if (data.status === "Success") {
+                if (data.status === "success") {
                     settickets(data.ticket);
                 } else {
                     console.error("Error fetching tickets:", data.message);

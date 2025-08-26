@@ -11,7 +11,7 @@ const Home: React.FC = () => {
     const fetchTickets = async () => {
       try {
         const data = await searchTickets({all: true});
-        if (data.status === "Success") {
+        if (data.status === "success") {
           setQueue(data.ticket.length);
         } else {
           console.error("Error fetching tickets:", data.message);
