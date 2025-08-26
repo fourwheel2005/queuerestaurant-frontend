@@ -11,7 +11,7 @@ const Reserve: React.FC = () => {
     const [formTicket, setFormTicket] = useState<FormTicket>({
         name: "",
         phone: "",
-        people: "",
+        people: 0,
         note: "",
     });
     const peopleOptions = [1, 2, 3, 4, 5, 6, 7];
@@ -40,11 +40,10 @@ const Reserve: React.FC = () => {
         }
         try {
             const data = await createTicket(formTicket);
-            console.log(data);
-            if (data.status === "Success") {
+            if (data.status === "success") {
                 const isConfirmed = await handleShowPopup("จองคิวเรียบร้อยแล้ว 🎉", data.status.toLowerCase());
                 if (isConfirmed) {
-                    navigate("/TicketStatus", { state: { id: data.ticket.id, all: false } });
+                    navigate("/TicketStatus", { state: { id: data.id, all: false } });
                 }
             } else {
                 handleShowPopup(data.message, "warning");
