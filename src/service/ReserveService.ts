@@ -9,7 +9,7 @@ export interface FormTicket {
 // ฟังก์ชันเรียก API
 export const createTicket = async (ticket: FormTicket) => {
   try {
-    const response = await fetch(`${config.API_URL}/api/CreateATicket`, {
+    const response = await fetch(`${config.API_URL}/api/queue/createticket`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(ticket),

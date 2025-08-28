@@ -7,7 +7,7 @@ interface FromConfirmAttendance {
 
 export const confirmAttendance = async (formConfirm: FromConfirmAttendance) => {
     try {
-        const response = await fetch(`${config.API_URL}/api/ConfirmAttendance`, {
+        const response = await fetch(`${config.API_URL}/api/queue/createticketConfirmAttendance`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formConfirm),
